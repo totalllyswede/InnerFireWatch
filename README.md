@@ -1,34 +1,60 @@
 # InnerFireWatch (Turtle WoW)
 
-Simple addon for Turtle WoW (1.12.1) that alerts you when **Inner Fire**
-expires.
+Version: 1.0  
+Author: Olzon
 
-## Features
+A lightweight Turtle WoW (1.12.1) addon that alerts you when **Inner
+Fire** expires.
+
+## What It Does
 
 -   Detects when Inner Fire falls off
--   Prints chat warning
--   Shows red error text in the middle of the screen
--   Plays a sound (custom or default)
--   Lightweight and vanilla-friendly
+-   Prints a chat warning
+-   Displays red error text in the center of the screen
+-   Plays an alert sound
+-   Minimal and vanilla‑friendly
+
+------------------------------------------------------------------------
 
 ## Installation
 
-1.  Extract the addon folder.
+1.  Extract the zip file.
 
-2.  Place `InnerFireWatch` inside:
+2.  Place the `InnerFireWatch` folder inside:
 
     World of Warcraft`\Interface`{=tex}`\AddOns`{=tex}\
 
-3.  Restart the client or type `/reload` if supported.
+3.  Restart the client.
 
-4.  Enable the addon at character select if needed.
+4.  Enable the addon at the character selection screen if needed.
 
-## Slash Commands
+------------------------------------------------------------------------
+
+## Commands
 
 -   `/ifw on` --- Enable addon
 -   `/ifw off` --- Disable addon
--   `/ifw sound on|off` --- Enable/disable sound
--   `/ifw gained on|off` --- Message when Inner Fire is gained
+-   `/ifw sound on` --- Enable sound
+-   `/ifw sound off` --- Disable sound
+-   `/ifw gained on` --- Message when Inner Fire is gained
+-   `/ifw gained off` --- Disable gained message
+
+------------------------------------------------------------------------
+
+## Optional: Custom Sound
+
+If you want to use your own sound:
+
+1.  Create this folder inside the addon:
+
+    `Interface\AddOns\InnerFireWatch\sounds\`
+
+2.  Place a file named:
+
+    `expire.wav`
+
+The addon will automatically use it if the file exists. If not, it will
+use the default WoW alert sound.
 
 ------------------------------------------------------------------------
 

@@ -30,14 +30,6 @@ expires.
 -   `/ifw sound on|off` --- Enable/disable sound
 -   `/ifw gained on|off` --- Message when Inner Fire is gained
 
-## Optional Custom Sound
-
-Place a file named:
-
-Interface`\AddOns`{=tex}`\InnerFireWatch`{=tex}`\sounds`{=tex}`\expire`{=tex}.wav
-
-The addon will automatically use it if available.
-
 ------------------------------------------------------------------------
 
 Made for Turtle WoW.

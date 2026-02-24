@@ -1,6 +1,6 @@
 # InnerFireWatch (Turtle WoW)
 
-Version: 1.0  
+Version: 1.1  
 Author: Olzon
 
 A lightweight Turtle WoW (1.12.1) addon that alerts you when **Inner

@@ -2,7 +2,7 @@
 ## Title: InnerFireWatch
 ## Notes: Alerts you when Priest buff Inner Fire expires.
 ## Author: Olzon
-## Version: 1.0
+## Version: 1.1
 ## SavedVariables: InnerFireWatchDB
 
 InnerFireWatch.lua

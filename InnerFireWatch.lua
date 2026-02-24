@@ -10,10 +10,44 @@ local DEFAULTS = {
   enabled = true,
   soundEnabled = true,
   gainedMessage = false,
+  largeMessageEnabled = true,
   useCustomSound = true,
   customSoundPath = "Interface\\AddOns\\InnerFireWatch\\sounds\\expire.wav",
   fallbackSound = "igQuestFailed",
 }
+
+-- Big center-screen text (independent of UIErrorsFrame)
+local CenterAlert = CreateFrame("Frame", "InnerFireWatchCenterAlert", UIParent)
+CenterAlert:SetPoint("CENTER", UIParent, "CENTER", 0, 120)
+CenterAlert:SetWidth(600)
+CenterAlert:SetHeight(80)
+CenterAlert:Hide()
+
+CenterAlert.text = CenterAlert:CreateFontString(nil, "OVERLAY")
+CenterAlert.text:SetAllPoints(CenterAlert)
+CenterAlert.text:SetFont("Fonts\\FRIZQT__.TTF", 32, "OUTLINE")
+CenterAlert.text:SetJustifyH("CENTER")
+CenterAlert.text:SetJustifyV("MIDDLE")
+
+local function ShowCenterAlert(msg, r, g, b)
+  CenterAlert.text:SetText(msg or "")
+  CenterAlert.text:SetTextColor(r or 1, g or 0.1, b or 0.1)
+  CenterAlert:Show()
+  CenterAlert.startTime = GetTime()
+end
+
+-- Fade out over ~1.6s
+CenterAlert:SetScript("OnUpdate", function()
+  if not CenterAlert:IsShown() then return end
+  local t = GetTime() - (CenterAlert.startTime or 0)
+  if t >= 1.6 then
+    CenterAlert:Hide()
+    return
+  end
+  -- 0.0 -> 1.6
+  local alpha = 1 - (t / 1.6)
+  CenterAlert:SetAlpha(alpha)
+end)
 
 local function ApplyDefaults()
   for k, v in pairs(DEFAULTS) do
@@ -54,6 +88,10 @@ end
 
 local function NotifyExpired()
   DEFAULT_CHAT_FRAME:AddMessage("|cffff3333Inner Fire has expired!|r")
+  if InnerFireWatchDB.largeMessageEnabled then
+    ShowCenterAlert("INNER FIRE EXPIRED!")
+  end
+
 
   if UIErrorsFrame and UIErrorsFrame.AddMessage then
     UIErrorsFrame:AddMessage("Inner Fire expired!", 1.0, 0.1, 0.1, 1.0, 5)
@@ -126,11 +164,19 @@ SlashCmdList["INNERFIREWATCH"] = function(msg)
     InnerFireWatchDB.gainedMessage = false
     DEFAULT_CHAT_FRAME:AddMessage("InnerFireWatch: gained message disabled")
 
+  elseif msg == "large on" then
+    InnerFireWatchDB.largeMessageEnabled = true
+    DEFAULT_CHAT_FRAME:AddMessage("InnerFireWatch: large message enabled")
+  elseif msg == "large off" then
+    InnerFireWatchDB.largeMessageEnabled = false
+    DEFAULT_CHAT_FRAME:AddMessage("InnerFireWatch: large message disabled")
+
   else
     DEFAULT_CHAT_FRAME:AddMessage("InnerFireWatch commands:")
     DEFAULT_CHAT_FRAME:AddMessage("  /ifw on|off")
     DEFAULT_CHAT_FRAME:AddMessage("  /ifw sound on|sound off")
     DEFAULT_CHAT_FRAME:AddMessage("  /ifw custom on|custom off")
     DEFAULT_CHAT_FRAME:AddMessage("  /ifw gained on|gained off")
+    DEFAULT_CHAT_FRAME:AddMessage("  /ifw large on|large off")
   end
 end

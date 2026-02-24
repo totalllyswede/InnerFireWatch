@@ -28,7 +28,6 @@ expires.
 -   `/ifw on` --- Enable addon
 -   `/ifw off` --- Disable addon
 -   `/ifw sound on|off` --- Enable/disable sound
--   `/ifw custom on|off` --- Enable/disable custom sound file
 -   `/ifw gained on|off` --- Message when Inner Fire is gained
 
 ## Optional Custom Sound

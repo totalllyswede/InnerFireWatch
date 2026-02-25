@@ -1,20 +1,31 @@
 -- InnerFireWatch (Turtle WoW / 1.12.1)
--- Alerts when "Inner Fire" buff falls off.
+-- Tracks key self-buffs and alerts when they fall off:
+--  - Priest: Inner Fire
+--  - Warrior: Battle Shout
+--  - Shaman: Lightning Shield / Water Shield / Earth Shield
 
 InnerFireWatchDB = InnerFireWatchDB or {}
 
 local f = CreateFrame("Frame")
-local wasActive = false
 
 local DEFAULTS = {
   enabled = true,
   soundEnabled = true,
   gainedMessage = false,
   largeMessageEnabled = true,
+
   useCustomSound = true,
   customSoundPath = "Interface\\AddOns\\InnerFireWatch\\sounds\\expire.wav",
   fallbackSound = "igQuestFailed",
 }
+
+local function ApplyDefaults()
+  for k, v in pairs(DEFAULTS) do
+    if InnerFireWatchDB[k] == nil then
+      InnerFireWatchDB[k] = v
+    end
+  end
+end
 
 -- Big center-screen text (independent of UIErrorsFrame)
 local CenterAlert = CreateFrame("Frame", "InnerFireWatchCenterAlert", UIParent)
@@ -44,27 +55,19 @@ CenterAlert:SetScript("OnUpdate", function()
     CenterAlert:Hide()
     return
   end
-  -- 0.0 -> 1.6
   local alpha = 1 - (t / 1.6)
   CenterAlert:SetAlpha(alpha)
 end)
 
-local function ApplyDefaults()
-  for k, v in pairs(DEFAULTS) do
-    if InnerFireWatchDB[k] == nil then
-      InnerFireWatchDB[k] = v
-    end
-  end
-end
-
-local function HasInnerFire()
+-- Returns true if player currently has a buff whose texture contains textureNeedle (lowercase compare).
+local function HasBuffByTexture(textureNeedle)
   local i = 1
   while true do
     local texture = UnitBuff("player", i)
     if not texture then break end
 
     texture = string.lower(texture)
-    if string.find(texture, "spell_holy_innerfire") then
+    if string.find(texture, textureNeedle) then
       return true
     end
 
@@ -86,37 +89,74 @@ local function PlayExpireSound()
   end
 end
 
-local function NotifyExpired()
-  DEFAULT_CHAT_FRAME:AddMessage("|cffff3333Inner Fire has expired!|r")
+local function NotifyExpired(buffLabel)
+  local msg = buffLabel .. " has expired!"
+  DEFAULT_CHAT_FRAME:AddMessage("|cffff3333" .. msg .. "|r")
+
   if InnerFireWatchDB.largeMessageEnabled then
-    ShowCenterAlert("INNER FIRE EXPIRED!")
+    ShowCenterAlert(string.upper(buffLabel) .. " EXPIRED!")
   end
 
-
   if UIErrorsFrame and UIErrorsFrame.AddMessage then
-    UIErrorsFrame:AddMessage("Inner Fire expired!", 1.0, 0.1, 0.1, 1.0, 5)
+    UIErrorsFrame:AddMessage(msg, 1.0, 0.1, 0.1, 1.0, 5)
   end
 
   PlayExpireSound()
 end
 
-local function NotifyGained()
+local function NotifyGained(buffLabel)
   if not InnerFireWatchDB.gainedMessage then return end
-  DEFAULT_CHAT_FRAME:AddMessage("|cff33ff33Inner Fire active.|r")
+  DEFAULT_CHAT_FRAME:AddMessage("|cff33ff33" .. buffLabel .. " active.|r")
+end
+
+-- Build trackers based on class
+local trackers = {}
+local function BuildTrackers()
+  trackers = {}
+
+  local _, classToken = UnitClass("player")
+  if classToken == "PRIEST" then
+    table.insert(trackers, {
+      label = "Inner Fire",
+      needle = "spell_holy_innerfire",
+      active = false,
+    })
+  elseif classToken == "WARRIOR" then
+    table.insert(trackers, {
+      label = "Battle Shout",
+      needle = "ability_warrior_battleshout",
+      active = false,
+    })
+  elseif classToken == "SHAMAN" then
+    -- Texture needles are based on the icon file names.
+    -- Lightning Shield: Spell_Nature_LightningShield
+    -- Water Shield: Ability_Shaman_WaterShield
+    -- Earth Shield: Spell_Nature_SkinOfEarth (commonly used in TBC/clients that add it)
+    table.insert(trackers, { label = "Lightning Shield", needle = "spell_nature_lightningshield", active = false })
+    table.insert(trackers, { label = "Water Shield",     needle = "ability_shaman_watershield",   active = false })
+    table.insert(trackers, { label = "Earth Shield",     needle = "spell_nature_skinofearth",    active = false })
+  end
+
+  for _, t in ipairs(trackers) do
+    t.active = HasBuffByTexture(t.needle)
+  end
 end
 
 local function Check()
   if not InnerFireWatchDB.enabled then return end
+  if not trackers or table.getn(trackers) == 0 then return end
 
-  local active = HasInnerFire()
+  for _, t in ipairs(trackers) do
+    local nowActive = HasBuffByTexture(t.needle)
 
-  if wasActive and not active then
-    NotifyExpired()
-  elseif (not wasActive) and active then
-    NotifyGained()
+    if t.active and (not nowActive) then
+      NotifyExpired(t.label)
+    elseif (not t.active) and nowActive then
+      NotifyGained(t.label)
+    end
+
+    t.active = nowActive
   end
-
-  wasActive = active
 end
 
 f:RegisterEvent("PLAYER_LOGIN")
@@ -126,12 +166,14 @@ f:SetScript("OnEvent", function()
   Check()
 end)
 
+-- Init after saved vars load
 f:SetScript("OnUpdate", function()
   f:SetScript("OnUpdate", nil)
   ApplyDefaults()
-  wasActive = HasInnerFire()
+  BuildTrackers()
 end)
 
+-- Slash commands
 SLASH_INNERFIREWATCH1 = "/ifw"
 SlashCmdList["INNERFIREWATCH"] = function(msg)
   msg = msg and string.lower(msg) or ""

@@ -1,18 +1,25 @@
 # InnerFireWatch (Turtle WoW)
 
-Version: 1.1  
+Version: 1.1\
 Author: Olzon
 
-A lightweight Turtle WoW (1.12.1) addon that alerts you when **Inner
-Fire** expires.
+A lightweight Turtle WoW (1.12.1) addon that alerts you when key
+self-buffs expire.
+
+## What It Tracks
+
+-   **Priest:** Inner Fire
+-   **Warrior:** Battle Shout
+-   **Shaman:** Lightning Shield, Water Shield, Earth Shield
 
 ## What It Does
 
--   Detects when Inner Fire falls off
+-   Detects when the tracked buff falls off
 -   Prints a chat warning
 -   Displays red error text in the center of the screen
+-   Optional big center-screen message
 -   Plays an alert sound
--   Minimal and vanilla‑friendly
+-   Minimal and vanilla-friendly
 
 ------------------------------------------------------------------------
 
@@ -22,7 +29,7 @@ Fire** expires.
 
 2.  Place the `InnerFireWatch` folder inside:
 
-    World of Warcraft`\Interface`{=tex}`\AddOns`{=tex}\
+    `World of Warcraft\Interface\AddOns\`
 
 3.  Restart the client.
 
@@ -36,8 +43,10 @@ Fire** expires.
 -   `/ifw off` --- Disable addon
 -   `/ifw sound on` --- Enable sound
 -   `/ifw sound off` --- Disable sound
--   `/ifw gained on` --- Message when Inner Fire is gained
+-   `/ifw gained on` --- Message when the buff is gained
 -   `/ifw gained off` --- Disable gained message
+-   `/ifw large on` --- Enable big center-screen message
+-   `/ifw large off` --- Disable big center-screen message
 
 ------------------------------------------------------------------------
 
@@ -53,9 +62,5 @@ If you want to use your own sound:
 
     `expire.wav`
 
-The addon will automatically use it if the file exists. If not, it will
-use the default WoW alert sound.
-
-------------------------------------------------------------------------
-
-Made for Turtle WoW.
+If the file exists, the addon will play it on expiration. Otherwise it
+uses the default WoW alert sound.

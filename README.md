@@ -3,23 +3,43 @@
 Version: 1.1\
 Author: Olzon
 
-A lightweight Turtle WoW (1.12.1) addon that alerts you when key
+A lightweight Turtle WoW (1.12.1) addon that alerts you when important
 self-buffs expire.
 
-## What It Tracks
+------------------------------------------------------------------------
 
--   **Priest:** Inner Fire
--   **Warrior:** Battle Shout
--   **Shaman:** Lightning Shield, Water Shield, Earth Shield
+## Supported Classes & Buffs
 
-## What It Does
+### Priest
 
--   Detects when the tracked buff falls off
+-   Inner Fire
+
+### Warrior
+
+-   Battle Shout
+
+### Shaman
+
+-   Lightning Shield
+-   Water Shield
+-   Earth Shield
+
+### Mage
+
+-   Arcane Intellect
+-   Ice Armor
+-   Mage Armor
+
+------------------------------------------------------------------------
+
+## Features
+
+-   Detects when a tracked buff expires
 -   Prints a chat warning
--   Displays red error text in the center of the screen
--   Optional big center-screen message
--   Plays an alert sound
--   Minimal and vanilla-friendly
+-   Displays red UI error text
+-   Optional large center-screen alert (toggleable)
+-   Optional sound alert (custom or default)
+-   Extremely lightweight and vanilla-friendly
 
 ------------------------------------------------------------------------
 
@@ -37,22 +57,22 @@ self-buffs expire.
 
 ------------------------------------------------------------------------
 
-## Commands
+## Slash Commands
 
--   `/ifw on` --- Enable addon
--   `/ifw off` --- Disable addon
--   `/ifw sound on` --- Enable sound
--   `/ifw sound off` --- Disable sound
--   `/ifw gained on` --- Message when the buff is gained
--   `/ifw gained off` --- Disable gained message
--   `/ifw large on` --- Enable big center-screen message
--   `/ifw large off` --- Disable big center-screen message
+-   `/ifw on` --- Enable addon\
+-   `/ifw off` --- Disable addon\
+-   `/ifw sound on` --- Enable sound\
+-   `/ifw sound off` --- Disable sound\
+-   `/ifw gained on` --- Message when buff is gained\
+-   `/ifw gained off` --- Disable gained message\
+-   `/ifw large on` --- Enable large center-screen alert\
+-   `/ifw large off` --- Disable large center-screen alert
 
 ------------------------------------------------------------------------
 
 ## Optional: Custom Sound
 
-If you want to use your own sound:
+To use your own alert sound:
 
 1.  Create this folder inside the addon:
 
@@ -62,5 +82,9 @@ If you want to use your own sound:
 
     `expire.wav`
 
-If the file exists, the addon will play it on expiration. Otherwise it
-uses the default WoW alert sound.
+If the file exists, it will be used automatically.\
+If not, the default WoW alert sound will play.
+
+------------------------------------------------------------------------
+
+Designed for Turtle WoW.

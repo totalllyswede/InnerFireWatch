@@ -135,6 +135,13 @@ local function BuildTrackers()
     table.insert(trackers, { label = "Lightning Shield", needle = "spell_nature_lightningshield", active = false })
     table.insert(trackers, { label = "Water Shield",     needle = "ability_shaman_watershield",   active = false })
     table.insert(trackers, { label = "Earth Shield",     needle = "spell_nature_skinofearth",    active = false })
+  elseif classToken == "MAGE" then
+    -- Arcane Intellect: Spell_Holy_MagicalSentry
+    -- Ice Armor: Spell_Ice_FrostArmor02 (use "frostarmor" to match variants)
+    -- Mage Armor: Spell_MageArmor
+    table.insert(trackers, { label = "Arcane Intellect", needle = "spell_holy_magicalsentry", active = false })
+    table.insert(trackers, { label = "Ice Armor",         needle = "frostarmor",               active = false })
+    table.insert(trackers, { label = "Mage Armor",        needle = "spell_magearmor",        active = false })
   end
 
   for _, t in ipairs(trackers) do

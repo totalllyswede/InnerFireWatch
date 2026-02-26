@@ -14,6 +14,11 @@ local DEFAULTS = {
   gainedMessage = false,
   largeMessageEnabled = true,
 
+  -- Large message color (RGB 0-1 range)
+  largeMessageR = 1,
+  largeMessageG = 0.1,
+  largeMessageB = 0.1,
+
   useCustomSound = true,
   customSoundPath = "Interface\\AddOns\\InnerFireWatch\\sounds\\expire.wav",
   fallbackSound = "igQuestFailed",
@@ -47,15 +52,15 @@ local function ShowCenterAlert(msg, r, g, b)
   CenterAlert.startTime = GetTime()
 end
 
--- Fade out over ~1.6s
+-- Fade out over ~2.5s
 CenterAlert:SetScript("OnUpdate", function()
   if not CenterAlert:IsShown() then return end
   local t = GetTime() - (CenterAlert.startTime or 0)
-  if t >= 1.6 then
+  if t >= 2.5 then
     CenterAlert:Hide()
     return
   end
-  local alpha = 1 - (t / 1.6)
+  local alpha = 1 - (t / 2.5)
   CenterAlert:SetAlpha(alpha)
 end)
 
@@ -94,7 +99,7 @@ local function NotifyExpired(buffLabel)
   DEFAULT_CHAT_FRAME:AddMessage("|cffff3333" .. msg .. "|r")
 
   if InnerFireWatchDB.largeMessageEnabled then
-    ShowCenterAlert(string.upper(buffLabel) .. " EXPIRED!")
+    ShowCenterAlert(string.upper(buffLabel) .. " EXPIRED!", InnerFireWatchDB.largeMessageR, InnerFireWatchDB.largeMessageG, InnerFireWatchDB.largeMessageB)
   end
 
   if UIErrorsFrame and UIErrorsFrame.AddMessage then
@@ -220,12 +225,42 @@ SlashCmdList["INNERFIREWATCH"] = function(msg)
     InnerFireWatchDB.largeMessageEnabled = false
     DEFAULT_CHAT_FRAME:AddMessage("InnerFireWatch: large message disabled")
 
+
+
+  elseif msg == "white" then
+    InnerFireWatchDB.largeMessageR, InnerFireWatchDB.largeMessageG, InnerFireWatchDB.largeMessageB = 1,1,1
+    DEFAULT_CHAT_FRAME:AddMessage("InnerFireWatch: color set to white")
+  elseif msg == "green" then
+    InnerFireWatchDB.largeMessageR, InnerFireWatchDB.largeMessageG, InnerFireWatchDB.largeMessageB = 0,1,0
+    DEFAULT_CHAT_FRAME:AddMessage("InnerFireWatch: color set to green")
+  elseif msg == "blue" then
+    InnerFireWatchDB.largeMessageR, InnerFireWatchDB.largeMessageG, InnerFireWatchDB.largeMessageB = 0,0.4,1
+    DEFAULT_CHAT_FRAME:AddMessage("InnerFireWatch: color set to blue")
+  elseif msg == "red" then
+    InnerFireWatchDB.largeMessageR, InnerFireWatchDB.largeMessageG, InnerFireWatchDB.largeMessageB = 1,0,0
+    DEFAULT_CHAT_FRAME:AddMessage("InnerFireWatch: color set to red")
+  elseif msg == "yellow" then
+    InnerFireWatchDB.largeMessageR, InnerFireWatchDB.largeMessageG, InnerFireWatchDB.largeMessageB = 1,1,0
+    DEFAULT_CHAT_FRAME:AddMessage("InnerFireWatch: color set to yellow")
+  elseif msg == "purple" then
+    InnerFireWatchDB.largeMessageR, InnerFireWatchDB.largeMessageG, InnerFireWatchDB.largeMessageB = 0.7,0,1
+    DEFAULT_CHAT_FRAME:AddMessage("InnerFireWatch: color set to purple")
   else
-    DEFAULT_CHAT_FRAME:AddMessage("InnerFireWatch commands:")
-    DEFAULT_CHAT_FRAME:AddMessage("  /ifw on|off")
-    DEFAULT_CHAT_FRAME:AddMessage("  /ifw sound on|sound off")
-    DEFAULT_CHAT_FRAME:AddMessage("  /ifw custom on|custom off")
-    DEFAULT_CHAT_FRAME:AddMessage("  /ifw gained on|gained off")
-    DEFAULT_CHAT_FRAME:AddMessage("  /ifw large on|large off")
+    DEFAULT_CHAT_FRAME:AddMessage("|cff00ccffInnerFireWatch Commands|r")
+    DEFAULT_CHAT_FRAME:AddMessage(" ")
+    DEFAULT_CHAT_FRAME:AddMessage("|cffffff00General|r")
+    DEFAULT_CHAT_FRAME:AddMessage("  /ifw on")
+    DEFAULT_CHAT_FRAME:AddMessage("  /ifw off")
+    DEFAULT_CHAT_FRAME:AddMessage("  /ifw sound on|off")
+    DEFAULT_CHAT_FRAME:AddMessage("  /ifw gained on|off")
+    DEFAULT_CHAT_FRAME:AddMessage("  /ifw large on|off")
+    DEFAULT_CHAT_FRAME:AddMessage(" ")
+    DEFAULT_CHAT_FRAME:AddMessage("|cffffff00Color Presets|r")
+    DEFAULT_CHAT_FRAME:AddMessage("  /ifw white")
+    DEFAULT_CHAT_FRAME:AddMessage("  /ifw green")
+    DEFAULT_CHAT_FRAME:AddMessage("  /ifw blue")
+    DEFAULT_CHAT_FRAME:AddMessage("  /ifw red")
+    DEFAULT_CHAT_FRAME:AddMessage("  /ifw yellow")
+    DEFAULT_CHAT_FRAME:AddMessage("  /ifw purple")
   end
 end

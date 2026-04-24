@@ -1,74 +1,42 @@
-# InnerFireWatch (Turtle WoW)
+# InnerFireWatch
 
-Version: 1.2\
+Version: 2.0  
 Author: Olzon
 
-A lightweight Turtle WoW (1.12.1) addon that alerts you when important
-self-buffs expire.
+WoW 3.3.5 / Epoch addon that alerts when tracked buffs expire.
 
-------------------------------------------------------------------------
+## Commands
 
-## Supported Classes & Buffs
+- `/ifw` — Open options window
+- `/ifw help` — Show help message
+
+## Current Tracking
 
 ### Priest
-
--   Inner Fire
+- Inner Fire
 
 ### Warrior
-
--   Battle Shout
+- Battle Shout
 
 ### Shaman
-
--   Lightning Shield
--   Water Shield
--   Earth Shield
+- Lightning Shield
+- Water Shield
+- Earth Shield
 
 ### Mage
+- Arcane Intellect
+- Ice Armor
+- Mage Armor
 
--   Arcane Intellect
--   Ice Armor
--   Mage Armor
+## Options
 
-------------------------------------------------------------------------
+- Enable sound
+- Use Custom Sound File
+- Test Sound
+- Show gained message
+- Show large center message
+- Color dropdown
 
-## Features
+## UI Update
 
--   Detects when a tracked buff expires
--   Prints a chat warning
--   Displays red UI error text
--   Optional large center-screen alert (toggleable)
--   Preset color options for large alert
-- Large center-screen alert lasts ~2.5s
--   Optional sound alert (custom or default)
--   Extremely lightweight and vanilla-friendly
-
-------------------------------------------------------------------------
-
-## Slash Commands
-
--   `/ifw on`
--   `/ifw off`
--   `/ifw sound on|off`
--   `/ifw gained on|off`
--   `/ifw large on|off`
--   `/ifw white`
--   `/ifw green`
--   `/ifw blue`
--   `/ifw red`
--   `/ifw yellow`
--   `/ifw purple`
-
-------------------------------------------------------------------------
-
-## Optional: Custom Sound
-
-Place `expire.wav` inside:
-
-`Interface\AddOns\InnerFireWatch\sounds\`
-
-If present, it will be used automatically.
-
-------------------------------------------------------------------------
-
-Designed for Turtle WoW.
+- Close button changed to **Save & Close** with increased width for clarity.

@@ -40,3 +40,21 @@ WoW 3.3.5 / Epoch addon that alerts when tracked buffs expire.
 ## UI Update
 
 - Close button changed to **Save & Close** with increased width for clarity.
+
+
+## Installation
+
+1. Download the addon zip file.
+2. Extract the contents into your WoW AddOns folder:
+   ```
+   World of Warcraft\Interface\AddOns\
+   ```
+3. Ensure the folder is named:
+   ```
+   InnerFireWatch_WotLK
+   ```
+   ⚠️ Make sure the folder name does NOT contain `-main` (common when downloading from GitHub).
+4. Restart WoW or reload UI with:
+   ```
+   /reload
+   ```

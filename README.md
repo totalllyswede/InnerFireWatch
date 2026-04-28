@@ -24,7 +24,7 @@ WoW 3.3.5 / Epoch addon that alerts when tracked buffs expire.
 - Earth Shield
 
 ### Mage
-- Arcane Intellect
+- Frost Armor
 - Ice Armor
 - Mage Armor
 

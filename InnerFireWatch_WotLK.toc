@@ -2,7 +2,7 @@
 ## Title: InnerFireWatch
 ## Notes: Alerts when tracked buffs expire on WoW 3.3.5 / Epoch and includes a small options window.
 ## Author: Olzon
-## Version: 2.0.2
+## Version: 2.0.4
 ## SavedVariables: InnerFireWatchDB
 
 InnerFireWatch_WotLK.lua

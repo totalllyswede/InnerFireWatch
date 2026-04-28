@@ -188,7 +188,7 @@ local function BuildTrackers()
     table.insert(trackers, { label = "Water Shield", name = "Water Shield", active = false })
     table.insert(trackers, { label = "Earth Shield", name = "Earth Shield", active = false })
   elseif classToken == "MAGE" then
-    table.insert(trackers, { label = "Arcane Intellect", name = "Arcane Intellect", active = false })
+    table.insert(trackers, { label = "Frost Armor", name = "Frost Armor", active = false })
     table.insert(trackers, { label = "Ice Armor", name = "Ice Armor", active = false })
     table.insert(trackers, { label = "Mage Armor", name = "Mage Armor", active = false })
   end
